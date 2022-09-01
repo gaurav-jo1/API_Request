@@ -1,23 +1,36 @@
 import React, { useState } from "react";
-import { useQuery } from 'react-query'
+import { useQuery } from "react-query";
+import Post from "./Post";
 
-const fetcher = (repo) => {
-  return fetch(`https://api.github.com/repos/${repo}`).then(res => res.json())
-}
+const fetcher = (url) => fetch(url).then((res) => res.json());
 
 function App() {
-  const [repoName, setRepoName] = useState('')
+  const [postID, setPostID] = useState(null);
 
-  const {data, isLoading} = useQuery(['github-data', repoName ], () => fetcher(repoName))
+  const { data: posts, isLoading } = useQuery("posts", () =>
+    fetcher("https://jsonplaceholder.typicode.com/posts")
+  );
 
-  if(isLoading) return <h2>Loading....</h2>
+  if (isLoading) return <h1>Loading...</h1>;
 
+  if (postID !== null) {
+    return (
+      <Post postID={postID} goback={() => setPostID(null)} fetcher={fetcher} />
+    );
+  }
   return (
     <div>
-      <input type="text" value={repoName} onChange={(e) => setRepoName(e.target.value)} />
-      <h2>Name: {data.name}</h2>
-      <h2>Desc: {data.description}</h2>
-      <h2>Login: {data.stargazers_count}</h2>
+      <h1>Hellow World</h1>
+      {posts.map((post) => {
+        return (
+          <p key={post.id}>
+            {" "}
+            <a onClick={() => setPostID(post.id)} href="#0">
+              {post.id} {post.title}
+            </a>{" "}
+          </p>
+        );
+      })}
     </div>
   );
 }
