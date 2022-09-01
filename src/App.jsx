@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useQuery } from "react-query";
 import Post from "./Post";
+import client from "./react-query-client";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -22,12 +23,13 @@ function App() {
     <div>
       <h1>Hellow World</h1>
       {posts.map((post) => {
+        const cachedPost = client.getQueryData(["post", post.id]);
         return (
           <p key={post.id}>
-            {" "}
             <a onClick={() => setPostID(post.id)} href="#0">
               {post.id} {post.title}
-            </a>{" "}
+            </a>
+            {cachedPost ? " ▶️" : null}
           </p>
         );
       })}
