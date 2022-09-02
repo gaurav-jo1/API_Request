@@ -26,10 +26,10 @@ function App() {
         const cachedPost = client.getQueryData(["post", post.id]);
         return (
           <p key={post.id}>
+            <b>{cachedPost ? " ▶️" : null}</b>
             <a onClick={() => setPostID(post.id)} href="#0">
               {post.id} {post.title}
             </a>
-            {cachedPost ? " ▶️" : null}
           </p>
         );
       })}
