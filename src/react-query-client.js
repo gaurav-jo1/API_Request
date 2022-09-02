@@ -1,12 +1,5 @@
-import { QueryClient } from "react-query"
+import {QueryClient} from "react-query"
 
-const client = new QueryClient({
-    defaultOptions: {
-        queries: {
-            staleTime: Infinity,
-            cacheTime: Infinity
-        }
-    }
-})
+const client = new QueryClient()
 
 export default client;
